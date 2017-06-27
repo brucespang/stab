@@ -1,0 +1,152 @@
+This code uses tailgating chirp packet trains (UDP) to estimate
+available bandwidth (unused capacity) and locate the "thin links" on a
+network path. Thin links are those links with less available bandwidth
+than those preceding it on an end-to-end network path. The receiver
+displays results online in a window (for machines equipped with gnome) as
+well as stores them in a file.
+
+
+NOTE ON INTERRUPT COALESCENCE: In case packets arrival interrupts are
+combined (coalesced) by the NIC cards (as is done with several drivers
+on the linux OS 2.4 and higher) use the -J option at the receiver.
+
+
+CORRESPONDENCE
+==============
+
+Please do send your comments about the performance of this tool, and
+any changes you feel would make the tool more convenient or user
+friendly. Please let us know what applications you need end-to-end
+tools for so that we can meet your needs best. The current tool is
+designed to be a low bit rate tool for keeping track of available
+bandwidth and the location of thin links over long durations of time.
+
+Contact: Vinay Ribeiro, vinay@rice.edu
+
+
+COMPILE INSTRUCTIONS
+====================
+Run the following:
+1) ./configure   
+2) make (gmake on FreeBSD)
+                                                                             
+The following will be generated:
+
+Bin/<host_cpu>/stab_rcv
+Bin/<host_cpu>/stab_snd
+
+For example on certain Linux boxes <host_cpu>=i686.
+
+To RECOMPILE the code run "make clean" (on FreeBSD "gmake clean")
+first before the two steps mentioned above.
+
+RUNNING EXPERIMENTS
+===================
+
+1) SENDER (needs to be run just once)
+
+./Bin/<host_cpu>/stab_snd 
+
+Options:
+	-U <sender port, default=8365>
+         -h     Help: produces this output
+         -v version
+         -D print debug information
+
+
+NOTE ON PORT NUMBER: In case the default port number is already used
+at the sender, try out other port numbers larger than 1024 using the
+-U option.  The receiver must then use the same port number with the -U 
+option.
+
+2) RECEIVER (must run for every experiment)
+
+./Bin/<host_cpu>/stab_rcv -S <sender> -t <experiment duration (secs)>
+
+NOTE: In case your machine has interrupt coalescence enabled use the -J option.
+For example:
+./Bin/<host_cpu>/stab_rcv -S <sender> -t <experiment duration (secs)> -J 5
+
+
+All Options (only useful for fine tuning):
+
+  -n <number of estimates to smooth over, default=25>
+         -d <decrease factor (>1), default=3.00>
+         -b <busy period length (integer >2), default=5>
+         -U <receiver port (chirp UDP), default=8365 (1024-65535)>
+         -h Help: produces this output
+         -S      sender host name or IP address
+         -J      number of packets per Jumbo packet,default=1. In case of packet coalescence use values larger than 1, e.g. -J 6
+         -l      lowest rate (Mbps) to probe at within chirp, default=10.00Mbps. NOTE: by default stab will find an appropriate probing range.
+         -u      highest rate (Mbps) to probe at within chirp, default=200.00Mbps
+         -p      packet size <40-8200>,default=1000 bytes
+         -t      duration of experiment(sec), default=600 sec
+         -s      spread factor: ratio of consecutive inter-arrivals within a chirp, default=1.20
+         -a      average probing rate (Mbps), default=0.30 Mbps
+         -g      increment of TTL between successive chirps, default=1
+         -D print debug information
+         -v version
+
+OUTPUT FILE
+===========
+
+At the RECEIVER the file
+
+	 <sender_name>_<receiver_name>_<time stamp>.instbw
+
+will be generated in the directory from which the code is run.
+
+
+FORMAT of the file (4 columns): 
+
+<time_stamp>  <avail-bw estimate from source to link "l"(Mbps)>  <link 
+"l">   <probability of link "l" being a thin link>
+
+GNOME PLOTS
+===========
+
+On receiver machines with "gnome-config" installed two plots will be
+generated which will be updated every 20 seconds with the latest
+results. 
+
+The first plot displays the available bandwidth from the source up to
+link "l" for different values of "l" (note that "l" is termed
+"sub-path length" in the plot). Errorbars indicate how accurate the
+estimates are.
+ 
+The second plot displays the
+estimated probability that different links are "thin links".
+
+
+DEBUGGING
+=========
+
+If you have problems with running the code we request that you run the
+code with the "-D" (debug) option at sender and receiver.
+
+The file:
+
+ <sender_name>_<receiver_name>_<time stamp>.debug
+
+will be generated. 
+
+FORMAT of debug file:
+
+<chirp number> <packet number>  <sender timestamp> <receiver timestamp>
+
+Please send us the
+<sender_name>_<receiver_name>_<time stamp>.debug 
+file as well as any information printed to stderr. To save all
+information printed on stderr in a file use
+
+./Bin/<host_cpu>/stab_rcv [options] > & [outputfilename]
+./Bin/<host_cpu>/stab_snd [options] > & [outputfilename]
+      
+
+
+
+
+
+
+
+
