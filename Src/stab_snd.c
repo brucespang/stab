@@ -271,38 +271,38 @@ void unconnect_so()
 {
 
   dst.sin_family = AF_UNSPEC;
-  
+
   dst.sin_addr.s_addr=htonl(INADDR_ANY);
-  
+
   dst.sin_port = htons ((u_short) sndPort);
-  
+
   connect (soudp, (struct sockaddr *) &dst, sizeof (dst));
   /*if (err< 0 && err!=EAFNOSUPPORT) {
     perror ("stab_snd: could not unconnect\n");
     (void) exit (1);
     }*/
-  
+
   connect (sobigpkt, (struct sockaddr *) &dst, sizeof (dst));
-  
+
   if(debug) fprintf(stderr,"disconnecting socket\n");
   create_challenge_number();
   reset_variables();
   if (allocated_mem)
     free_mem();/*free array memory for next connection*/
-  
+
   fprintf(stderr,"\nWaiting for receiver to setup connection\n");
-  
+
   return;
 }
 
 
-inline void send_pkt(int big_pkt_ttl)
+void send_pkt(int big_pkt_ttl)
 {
   u_int32_t crc;
   struct timeval tp_snd;
-  
+
   (void) gettimeofday (&tp_snd, (struct timezone *) 0);
-  
+
   sendpkt->timesec = htonl ((u_int32_t) tp_snd.tv_sec);
   sendpkt->timeusec = htonl ((u_int32_t) tp_snd.tv_usec);
   sendpkt->num = htonl ((u_int32_t) (np));
