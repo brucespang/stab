@@ -12,7 +12,7 @@
  * distribution of the software without specific, written prior
  * permission.  Rice University makes no representations about the
  * suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.  
+ * is" without express or implied warranty.
  *
  * RICE UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
  * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -37,11 +37,12 @@
 #define	MAXMESG		8200		/* Maximum packet size */
 #define	MAXCHIRPSIZE	200		/* Maximum number of packets in a chirp */
 #define MINSPREAD 1.1
-#define MINPKTSIZE 40 
+#define MINPKTSIZE 40
 #define MAX_RECV_OK_COUNT 20 /*number of chirps sender can send without hearing from receiver*/
-#define DEFAULT_MIN_RATE 10.0 
-#define DEFAULT_MAX_RATE 200.0 
-#define DEFAULT_AVG_RATE 0.3 
+#define DEFAULT_MIN_RATE 10.0
+#define DEFAULT_MAX_RATE 200.0
+#define DEFAULT_AVG_RATE 0.3
+#define DEFAULT_MAX_ACK_NOT_RECEIVED_COUNT 3
 #define CONSEC_BAD_PKTS 2
 #define NEG_THRESH -1000.0
 #define PLOT_TIME_GAP 20
@@ -56,7 +57,7 @@
 #define RECV_OK 7
 #define VERSION "1.3.1"
 
-#define RTTUSEC 200000 /*assuming RTT is less than 200 millisec, 
+#define RTTUSEC 200000 /*assuming RTT is less than 200 millisec,
 			 not a crucial parameter*/
 
 
@@ -68,7 +69,7 @@ typedef void Sigfunc(int);
 struct udprecord {
   u_int32_t num;			/* sender's pkt number */
   u_int32_t chirp_num;		/* chirp's pkt number */
-  u_int32_t request_num;            /* which request number does the chirp 
+  u_int32_t request_num;            /* which request number does the chirp
 				       rates correspond to */
   u_int32_t timesec;         /* seconds time stamp*/
   u_int32_t timeusec;         /* usec */
@@ -97,7 +98,7 @@ struct control_rcv2snd {
   u_int32_t ttl_index;
   u_int32_t num_ttl;/*maximum ttl value of large probing packets*/
   u_int32_t ttl_gap;
-  
+
   u_int32_t  checksum;/*check sum for security*/
 
 };
@@ -122,5 +123,3 @@ struct chirprecord {
   long last_pkt;
   int first_pkt_loc;/*location in packet_info of first pkt in chirp */
 };
-
-

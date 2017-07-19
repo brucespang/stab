@@ -12,7 +12,7 @@
  * distribution of the software without specific, written prior
  * permission.  Rice University makes no representations about the
  * suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty.  
+ * is" without express or implied warranty.
  *
  * RICE UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
  * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -134,6 +134,7 @@ extern int  ttl_index,ttl_gap;
 extern double *low_rate,*high_rate;
 extern double spec_low_rate,spec_high_rate;
 extern double avg_rate;/*rate range in chirp (Mbps)*/
+extern double max_ack_not_received_count;/*rate range in chirp (Mbps)*/
 extern double spread_factor; /* decrease in spread of packets within the
                              chirp*/
 extern int created_arrays;
@@ -199,7 +200,7 @@ extern void  parse_cmd_line(int,char **);
 
 extern void send_pkt(int,int);
 extern Sigfunc *Signal(int,Sigfunc *);/*in signal_alrm_rcv.c*/
-	
+
 extern void  lockMe();/* make sure memory not overwritten, in realtime.c*/
 
 extern void  create_arrays(); /* allocate memory for different arrays, in alloc_rcv.c */
@@ -221,4 +222,3 @@ extern void stem_plot(double *, double *,int,int);
 extern void clean_plot();
 extern void refresh_plot();
 extern in_addr_t gethostaddr(char *);
-

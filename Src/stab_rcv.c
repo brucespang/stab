@@ -12,7 +12,7 @@
  * distribution of the software without specific, written prior
  * permission.  Rice University makes no representations about the
  * suitability of this software for any purpose.  It is provided "as
- * is" without express or implied warranty. 
+ * is" without express or implied warranty.
  *
  * RICE UNIVERSITY DISCLAIMS ALL WARRANTIES WITH REGARD TO THIS
  * SOFTWARE, INCLUDING ALL IMPLIED WARRANTIES OF MERCHANTABILITY AND
@@ -152,6 +152,7 @@ int pktsize=1000;
 /*rate range in chirp (Mbps)*/
 double *low_rate,*high_rate;
 double avg_rate=DEFAULT_AVG_RATE;
+double max_ack_not_received_count=DEFAULT_MAX_ACK_NOT_RECEIVED_COUNT;
 
 
 double spec_low_rate=DEFAULT_MIN_RATE,spec_high_rate=DEFAULT_MAX_RATE;
@@ -221,14 +222,15 @@ void usage()
    (void) fprintf (stderr, "\t -s \t spread factor: ratio of consecutive inter-arrivals within a chirp, default=%.2f \n",spread_factor);
    (void) fprintf (stderr, "\t -a \t average probing rate (Mbps), default=%.2f Mbps \n",avg_rate);
    (void) fprintf (stderr, "\t -g \t increment of TTL between successive chirps, default=%d \n",ttl_gap);
-   (void) fprintf (stderr, "\t -D print debug information \n");
-   (void) fprintf (stderr, "\t -v version\n");
+   (void) fprintf (stderr, "\t -A \t ack not received count\n");
+   (void) fprintf (stderr, "\t -D \t print debug information \n");
+   (void) fprintf (stderr, "\t -v \t version\n");
 
   exit (1);
 }
 
 
-/* close all open files and sockets */  
+/* close all open files and sockets */
 
 void close_all()
 {
@@ -279,7 +281,7 @@ int main(argc,argv)
    if (debug) fprintf(stderr,"\n");
 
  /* contact sender and reply to challenge packet, in control_rcv.c */
- initiate_connection(); 
+ initiate_connection();
    if (debug) fprintf(stderr,"finished initiate_conn\n");
 
 
@@ -290,4 +292,3 @@ int main(argc,argv)
 
   return(0);
 }
-
